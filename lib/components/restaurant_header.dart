@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/constants.dart';
 
 class ShoppingCartHeader extends StatefulWidget {
-  const ShoppingCartHeader({Key? key}) : super(key: key);
+  final ValueChanged<int> onSelectedIdChanged; // 콜백 추가
+
+  const ShoppingCartHeader({Key? key, required this.onSelectedIdChanged}) : super(key: key);
 
   @override
   State<ShoppingCartHeader> createState() => _ShoppingCartHeaderState();
@@ -57,7 +59,6 @@ class _ShoppingCartHeaderState extends State<ShoppingCartHeader> {
     );
   }
 
-
   Widget _buildHeaderSelectorButton(int id, IconData mIcon) {
     return Container(
       width: 70,
@@ -72,6 +73,7 @@ class _ShoppingCartHeaderState extends State<ShoppingCartHeader> {
           setState(() {
             selectedId = id;
           });
+          widget.onSelectedIdChanged(id); // 콜백 호출
         },
       ),
     );

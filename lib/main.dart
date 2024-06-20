@@ -19,8 +19,21 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ShoppingCartPage extends StatelessWidget {
+class ShoppingCartPage extends StatefulWidget {
   const ShoppingCartPage({Key? key}) : super(key: key);
+
+  @override
+  State<ShoppingCartPage> createState() => _ShoppingCartPageState();
+}
+
+class _ShoppingCartPageState extends State<ShoppingCartPage> {
+  int selectedId = 0; // selectedId 추가
+
+  void onSelectedIdChanged(int newId) {
+    setState(() {
+      selectedId = newId;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +41,8 @@ class ShoppingCartPage extends StatelessWidget {
       appBar: _buildShoppingCartAppBar(),
       body: Column(
         children: [
-          ShoppingCartHeader(),
-          Expanded(child: ShoppingCartDetail()),
+          ShoppingCartHeader(onSelectedIdChanged: onSelectedIdChanged),
+          Expanded(child: ShoppingCartDetail(selectedId: selectedId)), // selectedId 전달
         ],
       ),
     );

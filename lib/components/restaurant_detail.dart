@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_restaurant/constants.dart';
 
 class ShoppingCartDetail extends StatelessWidget {
-  const ShoppingCartDetail({Key? key}) : super(key: key);
+  final int selectedId; // 매개변수 추가
 
+  const ShoppingCartDetail({Key? key, required this.selectedId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +20,8 @@ class ShoppingCartDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildDetailNameAndPrice(),
+            _buildDetailDescription(),
             _buildDetailRatingAndReviewCount(),
-            _buildDetailColorOptions(),
             _buildDetailButton(context),
           ],
         ),
@@ -29,26 +30,60 @@ class ShoppingCartDetail extends StatelessWidget {
   }
 
   Widget _buildDetailNameAndPrice() {
+    List<String> names = [
+      "Fast food",
+      "Fine Dining Set",
+      "Gourmet Restaurant Special",
+      "Cozy Cafe Combo"
+    ];
+
+    List<String> prices = [
+      "\$4.99",
+      "\$59.99",
+      "\$39.99",
+      "\$9.99"
+    ];
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "Urban Soft AL 10.0",
+            names[selectedId], // 이름 변경
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
           Text(
-            "\$699",
+            prices[selectedId], // 가격 변경
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildDetailDescription() {
+    List<String> descriptions = [
+      "패스트 푸드 점 1등 가게 입니다.",
+      "가족 단위로 자주 오는 일식 가게입니다.",
+      "분위기 100점 연인끼리 오기 좋은 양식 집 입니다.",
+      "디저트가 맛있는 감성 카페입니다."
+    ];
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Text(
+        descriptions[selectedId], // 설명 변경
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.grey[700],
+        ),
       ),
     );
   }
@@ -71,74 +106,20 @@ class ShoppingCartDetail extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailColorOptions() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Color Options"),
-          SizedBox(height: 10),
-          Row(
-            children: [
-              _buildDetailIcon(Colors.black),
-              _buildDetailIcon(Colors.green),
-              _buildDetailIcon(Colors.orange),
-              _buildDetailIcon(Colors.grey),
-              _buildDetailIcon(Colors.white),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildDetailIcon(Color mColor) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: Stack(
-        children: [
-          Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(),
-              shape: BoxShape.circle,
-            ),
-          ),
-          Positioned(
-            left: 5,
-            top: 5,
-            child: ClipOval(
-              child: Container(
-                color: mColor,
-                width: 40,
-                height: 40,
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget _buildDetailButton(BuildContext context) {
     return Align(
       child: TextButton(
         onPressed: () {
           showCupertinoDialog(
-            // 1. 추가
             context: context,
             builder: (context) => CupertinoAlertDialog(
-              title: Text("장바구니에 담으시겠습니까?"),
+              title: Text("음식점을 저장하시겠습니까?"),
               actions: [
                 CupertinoDialogAction(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("확인", style: TextStyle(color: Colors.blue),
-                  ),
+                  child: Text("확인", style: TextStyle(color: Colors.blue)),
                 ),
               ],
             ),
